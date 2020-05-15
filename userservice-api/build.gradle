@@ -1,0 +1,48 @@
+buildscript {
+	repositories {
+		maven {
+			url 'artifactory/public'
+		}
+		mavenLocal()
+	}
+}
+
+plugins {
+
+	id 'org.asciidoctor.convert' version '1.5.3'
+	id 'org.hidetake.swagger.generator' version '2.18.2'
+}
+version "1.0.0"
+apply plugin: 'base'
+
+ext {
+
+	springFoxArtifacts = ["springfox-swagger2", "springfox-swagger-ui"]
+
+	springFoxVersion = "2.9.2"
+	swaggerCodeGenVersion = "2.4.13"
+}
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web")
+
+	springFoxArtifacts.each {
+		artifact -> compile("io.springfox:$artifact:$springFoxVersion")
+	}
+	swaggerCodegen("io.swagger:swagger-codegen-cli:$swaggerCodeGenVersion")
+}
+task copySwaggerGeneratedCode(type: Copy) {
+
+	from "${buildDir}/swagger-code"
+	into "${projectDir}"
+}
+generateSwaggerCode {
+	configFile = file('src/main/resources/swagger/config.json')
+	components = ['models', 'apis']
+	inputFile = file('src/main/resources/swagger/swagger.yml')
+	language = 'spring'
+}
+generateSwaggerCode.finalizedBy(project.tasks.copySwaggerGeneratedCode)
+compileJava.dependsOn('generateSwaggerCode')
+
+

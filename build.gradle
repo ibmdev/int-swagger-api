@@ -1,0 +1,42 @@
+buildscript {
+
+	ext {
+		springBootVersion = '2.2.7.RELEASE'
+	}
+
+	repositories {
+
+		maven {
+			url 'artifactory/public'
+		}
+		mavenLocal()
+
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+	}
+}
+
+subprojects {
+
+	group 'fr.sma.svc.bw'
+	apply plugin: 'java'
+	apply plugin: 'maven'
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+	def defaultEncoding = 'UTF-8'
+	[compileJava, compileTestJava]*.options*.encoding = defaultEncoding
+	def coverageSourceDirs = ['src/main/java']
+	repositories {
+		maven {
+			url 'artifactory/public'
+		}
+		mavenLocal()
+
+	}
+	dependencies {
+		compile('org.springframework.boot:spring-boot-starter-web:2.2.7.RELEASE')
+	}
+}

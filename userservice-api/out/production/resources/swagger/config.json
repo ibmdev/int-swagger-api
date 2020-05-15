@@ -1,0 +1,6 @@
+{
+	"dateLibrary": "java8",
+	"hideGenerationTimestamp": true,
+	"modelPackage": "fr.sma.svc.sy.userservice.model",
+	"apiPackage": "fr.sma.svc.sy.userservice.api"
+}

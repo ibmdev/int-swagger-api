@@ -1,0 +1,15 @@
+pluginManagement {
+    repositories {
+        maven {
+            url 'artifactory/public'
+            credentials {
+                username = ''
+                password = ''
+            }
+
+        }
+    }
+}
+rootProject.name = "brokerweb-api"
+include "userservice-api"
+
